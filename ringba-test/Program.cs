@@ -21,14 +21,21 @@ namespace ringba_test
             {
                 var text = TextProvider.GetText();
 
-                Operators.CountChars(text);
-                Operators.CountCaps(text);
-                Operators.CountWords(text);
-                Operators.CountPrefixes(text);
+                Operators.PrintCharUse(Operators.CountChars(text));
+
+                var capsStatistics = Operators.CountCaps(text);
+                Console.WriteLine("Number of capitalized letters: {0}", capsStatistics.MostCommCount);
+
+                var wordStatistics = Operators.CountWords(text);
+                Console.WriteLine("Most common word(s): {0}. Appearances: {1}", wordStatistics.MostComm, wordStatistics.MostCommCount);
+
+                var prefixStatistics = Operators.CountPrefixes(text);
+                Console.WriteLine("Most common prefix(es): {0}. Appearances: {1}", prefixStatistics.MostComm, prefixStatistics.MostCommCount);
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error obtaining the file");
+                Console.WriteLine("Error performing request");
                 Console.WriteLine(ex.Message);
             }
 

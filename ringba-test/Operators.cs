@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace ringba_test
 {
-    class Operators
+    public class Operators
     {
-        public static void CountPrefixes(string text)
+        public static Statistics CountPrefixes(string text)
         {
             SpaceCounters();
             var mostCommPref = "";
@@ -36,28 +36,40 @@ namespace ringba_test
                     }
                 }
             }
-            Console.WriteLine("Most common prefix(es): {0}. Appearances: {1}", mostCommPrefDisplay, mostCommPrefCount);
+
+            return new Statistics
+            {
+                MostComm = mostCommPrefDisplay,
+                MostCommCount = mostCommPrefCount
+            };
         }
 
-        public static void CountCaps(string text)
+        public static Statistics CountCaps(string text)
         {
             SpaceCounters();
             var capsCount = Regex.Matches(text, "[A-Z]").Count;
-            Console.WriteLine("Number of capitalized letters: {0}", capsCount);
+
+            return new Statistics
+            {
+                MostCommCount = capsCount
+            };
         }
 
-        public static void CountChars(string text)
+        public static Dictionary<string, int> CountChars(string text)
         {
+            var charUse = new Dictionary<string, int>();
             SpaceCounters();
             for (int i = 65; i < 91; i++)
             {
                 string filter = ((char)i) + "|" + ((char) (i + 32));
                 var charCount = Regex.Matches(text, filter).Count;
-                Console.WriteLine("Number of appearances of letter {0}: {1}", ((char)i).ToString(), charCount);
+                charUse.Add(((char)i).ToString(), charCount);
             }
+
+            return charUse;
         }
 
-        public static void CountWords(string text)
+        public static Statistics CountWords(string text)
         {
             //A more "correct" strategy would be to add the words to a dictionary and evaluate repetitions
             //But to save memory I chose this approach instead
@@ -84,7 +96,19 @@ namespace ringba_test
                 }
             }
 
-            Console.WriteLine("Most common word(s): {0}. Appearances: {1}", mostCommWord, mostCommWordCount);
+            return new Statistics
+            {
+                MostComm = mostCommWord,
+                MostCommCount = mostCommWordCount
+            };
+        }
+
+        public static void PrintCharUse(Dictionary<string, int> charUse)
+        {
+            foreach (var charUseKey in charUse.Keys)
+            {
+                Console.WriteLine("Number of appearances of letter {0}: {1}", charUseKey, charUse[charUseKey]);
+            }
         }
 
         private static void SpaceCounters()
