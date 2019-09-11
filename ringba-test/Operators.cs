@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,9 +8,9 @@ namespace ringba_test
 {
     class Operators
     {
-        public static void PrefixCounter(string text)
+        public static void CountPrefixes(string text)
         {
-            Spacer();
+            SpaceCounters();
             var mostCommPref = "";
             var mostCommPrefCount = 0;
             var mostCommPrefDisplay = "";
@@ -38,16 +39,16 @@ namespace ringba_test
             Console.WriteLine("Most common prefix(es): {0}. Appearances: {1}", mostCommPrefDisplay, mostCommPrefCount);
         }
 
-        public static void CapsCounter(string text)
+        public static void CountCaps(string text)
         {
-            Spacer();
+            SpaceCounters();
             var capsCount = Regex.Matches(text, "[A-Z]").Count;
             Console.WriteLine("Number of capitalized letters: {0}", capsCount);
         }
 
-        public static void CharCounter(string text)
+        public static void CountChars(string text)
         {
-            Spacer();
+            SpaceCounters();
             for (int i = 65; i < 91; i++)
             {
                 string filter = ((char)i) + "|" + ((char) (i + 32));
@@ -56,11 +57,11 @@ namespace ringba_test
             }
         }
 
-        public static void WordCounter(string text)
+        public static void CountWords(string text)
         {
             //A more "correct" strategy would be to add the words to a dictionary and evaluate repetitions
             //But to save memory I chose this approach instead
-            Spacer();
+            SpaceCounters();
             var wordCollection = Regex.Matches(text, @"[\b[A-Z][^A-Z]*]*");
 
             var mostCommWord = "";
@@ -86,7 +87,7 @@ namespace ringba_test
             Console.WriteLine("Most common word(s): {0}. Appearances: {1}", mostCommWord, mostCommWordCount);
         }
 
-        private static void Spacer()
+        private static void SpaceCounters()
         {
             Console.WriteLine("--------------");
             Console.WriteLine();

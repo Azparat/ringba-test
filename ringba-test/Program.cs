@@ -13,42 +13,18 @@ namespace ringba_test
     {
         static void Main(string[] args)
         {
-            //In a real world environment this would be read from a config file
-            var request = System.Net.WebRequest.Create("https://ringba-test-html.s3-us-west-1.amazonaws.com/TestQuestions/output.txt");
-            //In a real world environment this would be read from a config file
-            var savePath = "C:\\Users\\franciscov\\Documents\\output.txt";
-
-
             Console.WriteLine("Welcome!");
-            //Creating a Spacer() overload for this case seemed unnecesary
+            //Creating a Spacer() overload for this case seemed unnecessary
             Console.WriteLine("--------------");
 
             try
             {
-                using (Stream stream = request.GetResponse().GetResponseStream())
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Obtaining file. Please wait...");
+                var text = TextProvider.GetText();
 
-                    var fStream = new FileStream(savePath, FileMode.Create);
-                    byte[] byteArray = new byte[256];
-                    int count = stream.Read(byteArray, 0, byteArray.Length);
-
-                    while (count > 0)
-                    {
-                        fStream.Write(byteArray, 0, count);
-                        count = stream.Read(byteArray, 0, byteArray.Length);
-                    }
-
-                    fStream.Close();
-                }
-
-                var text = File.ReadAllText(savePath);
-
-                Operators.CharCounter(text);
-                Operators.CapsCounter(text);
-                //Operators.WordCounter(text);
-                Operators.PrefixCounter(text);
+                Operators.CountChars(text);
+                Operators.CountCaps(text);
+                Operators.CountWords(text);
+                Operators.CountPrefixes(text);
             }
             catch (Exception ex)
             {
